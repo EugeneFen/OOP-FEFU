@@ -1,26 +1,32 @@
-//#pragma once
 #include <iostream>
 #include <string>
 using namespace std;
 
-template <class T>
-class Myclass
-{
-	int life; //æèçíè
-	T name; //èìÿ
-	int damage; //óðîí
+template<class T> class Myclass {
+	
+    private:
     
-    public:    	
-    MyClass(T v_name, int v_life, int v_damage)
+	T life; //æèçíè
+	string name; //èìÿ
+	int damage; //óðîí  !!!!!!!!!!!!!!!!!!!!!!
+	
+	public:
+    
+    Myclass(string v_name, T v_life, int v_damage)
     {
     	this->name = v_name;
     	this->life = v_life;
     	this->damage = v_damage;	
 	}
 
-    int Info_life()
+    T Info_life()
     {
     	return life;
+	}
+	
+	T niw_life(T value)
+	{
+		this->life = value;
 	}
 	
     int Info_damage()
@@ -28,7 +34,7 @@ class Myclass
     	return damage;
 	}
 	
-    T Info_name()
+    string Info_name()
     {
     	return name;
     }
@@ -40,3 +46,4 @@ class Myclass
     	this->damage = 0;
     }	
 };
+//#endif
