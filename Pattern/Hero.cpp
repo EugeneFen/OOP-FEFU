@@ -1,14 +1,66 @@
 #include <iostream>
 #include <string>
-#include "Myclass.h"
+#include "Person.h"
 #include "People.h"
 using namespace std;
 
+template<class T> class Stack_cont { //контейнер
+private:
+    struct Key {
+        T value;
+        Key *next;
+    };
+    
+    Key *begin = NULL;
+    
+    void output(Key *a) //вывод на экран содержимого стека
+    {
+        if (a==NULL) return;
+        output(a->next);
+        cout << a->value << " ";
+    }
+  
+ public:
+ 	
+ 	void Push(T item) //добавление эл в стек
+     { 
+        Key *c = new Key();
+        c->value=item;
+        c->next=begin;
+        begin=c;
+     } 
+      
+     T Pop() //инфорация о первом эл
+     {
+        Key *a; 
+        if (begin != NULL) 
+        {
+            a=begin;
+            begin=a->next;
+            return a->value;
+        }
+        else
+        {
+            throw "Stack is empty!";
+        }
+     }
+ 
+    int Empty() //проверка на пустату
+    {
+        return (begin==NULL);
+    }
+     
+    void Show() //вывод стека
+    {
+        output(begin);
+    }
+ 	
+};
 
-template <class T> class Shaman : public Myclass<T>
+template <class T> class Shaman : public Person<T>
 {
 	public:
-		Shaman(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) {}
+		Shaman(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) {}
 		
 		T Partial_Kill(T k)
 		{
@@ -17,10 +69,10 @@ template <class T> class Shaman : public Myclass<T>
 		}
 };
 
-template <class T> class Knight : public Myclass<T> 
+template <class T> class Knight : public Person<T> 
 {
 	public:
-		Knight(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) {}
+		Knight(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) {}
 		
 		T Complete_destruction(T villain)
 		{
@@ -29,10 +81,10 @@ template <class T> class Knight : public Myclass<T>
 		}
 };
 
-template <class T> class Warrior : public Myclass<T>  
+template <class T> class Warrior : public Person<T>  
 {
 	public:
-		Warrior(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) {}
+		Warrior(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) {}
 		
 		T Provocation(T villain)
 		{
@@ -41,14 +93,14 @@ template <class T> class Warrior : public Myclass<T>
 		}
 };
 
-template <class T> class Ants : public Myclass<T>
+template <class T> class Ants : public Person<T>
 {
 	int count;
 	int krit;
 	
 	public:
 		
-	Ants(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) 
+	Ants(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) 
 	{
 		this->krit = krit * 2;
 	}	
@@ -66,49 +118,20 @@ template <class T> class Ants : public Myclass<T>
 	
 };
 
-
-template <class T> class BOS_ants : public Myclass<T>
-{
-	int krit_bos;
-	public:
-		BOS_ants(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) {
-		}
-		
-		void Krit_hero(GameHero hero, Warrior war, Knight knig, Shaman sham)
-		{
-			cout<<"Ant boss deals critical damage"<<endl;
-			T value = hero.Info_life();
-			value = (value * 50)/100;
-			hero.niw_life(value);
-			
-			value = war.Info_life();
-			value = (value * 50)/100;
-			war.niw_life(value);
-			
-			value = sham.Info_life();
-			value = (value * 50)/100;
-			sham.niw_life(value);
-			
-			value = knig.Info_life();
-			value = (value * 50)/100;
-			knig.niw_life(value);
-		}
-}
-
-template <class T> class King_ants : public Myclass<T>
+template <class T> class King_ants : public Person<T>
 {	
 	public:
-		King_ants(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) {
+		King_ants(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) {
 		}
-}
+};
 
-template<class T> class GameHero :  public Myclass<T>//, public Knight<T>, public Warrior<T>, public Shaman<T>
+template<class T> class GameHero :  public Person<T>//, public Knight<T>, public Warrior<T>, public Shaman<T>
 {
 	int krit_damag;
 
 	public:
 		
-	GameHero(string v_name, T v_life, int v_damage) : Myclass<T>(v_name, v_life, v_damage) 
+	GameHero(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) 
 	{
 		this->krit_damag = krit_damag * 2;
 	}
@@ -141,28 +164,30 @@ template<class T> class GameHero :  public Myclass<T>//, public Knight<T>, publi
 	
 };
 
-int main()
+template <class T> class Boss_ants : public Person<T>
 {
-	
-	string name2 = "Hero!";
-	int xp = 100;
-	int damag = 50;
-	
-	GameHero<int> a(name2,xp,damag);
-	cout<<a.Info_name()<<endl;
-	cout<<a.Info_damage()<<endl;
-	cout<<a.Info_life()<<endl;
-	
-	Shaman<int> b(name2,xp,damag);
-	cout<<a.Ability_Shaman(10, b)<<endl;
-	cout<<b.Info_name()<<endl;
-	cout<<b.Info_damage()<<endl;
-	cout<<b.Info_life()<<endl;
-	
-	Knight<int> c(name2,xp,damag);
-	Warrior<int> d(name2,xp,damag);
-	cout<<a.Ability_Knight(10, c)<<endl;
-	cout<<a.Ability_Warrior(10, d)<<endl;
-	
-	return 0;
-}
+	int krit_bos;
+	public:
+		Boss_ants(string v_name, T v_life, int v_damage) : Person<T>(v_name, v_life, v_damage) {
+		}
+		
+		void Krit_hero(GameHero<T> hero, Warrior<T> war, Knight<T> knig, Shaman<T> sham)
+		{
+			cout<<"Ant boss deals critical damage"<<endl;
+			T value = hero.Info_life();
+			value = (value * 50)/100;
+			hero.niw_life(value);
+			
+			value = war.Info_life();
+			value = (value * 50)/100;
+			war.niw_life(value);
+			
+			value = sham.Info_life();
+			value = (value * 50)/100;
+			sham.niw_life(value);
+			
+			value = knig.Info_life();
+			value = (value * 50)/100;
+			knig.niw_life(value);
+		}
+};
