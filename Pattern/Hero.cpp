@@ -191,3 +191,43 @@ template <class T> class Boss_ants : public Person<T>
 			knig.niw_life(value);
 		}
 };
+
+void Play(string name)
+{
+	
+	Stack_cont<string> team;
+	Shaman<int> shaman("Iron", 100, 20);
+	Knight<int> knight("God", 50, 40);
+	Warrior<int> warrior("Kavin", 150, 30);
+	GameHero<int> hero(name, 200, 30);
+	Ants<int> ants("Mur", 30, 20);
+	ants.Create_ants(50);
+	King_ants<int> king("Queen", 200, 50);
+	Boss_ants<int> boss("Boss", 500, 100);
+	
+	
+}
+
+void Start()
+{
+	string name;
+	
+	cout<<"Hello traveler!"<<endl;
+	cout<<"What is your name?"<<endl;
+	name = "Kevin";
+	cout<<name<<endl;
+	cout<<"Wow! The name of a true hero"<<endl;
+	cout<<"Let me tell you how it all works"<<endl;
+	cout<<"There are monsters in the cave, you need to defeat them and not die"<<endl;
+	cout<<"You have 3 assistants"<<endl;
+	cout<<"If you need their help just call them"<<endl;
+	cout<<"Be careful the monsters are very strong"<<endl;
+	
+	Play(name);
+}
+
+int main()
+{	
+	Start;	
+	return 0;
+}
